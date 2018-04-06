@@ -1,0 +1,307 @@
+#include"Linklist.h"
+#include<stdio.h>
+#include<Windows.h>
+void LinklistPrintf(LinkNode* head,const char* msg)
+{
+	printf("[%s]:", msg);
+	LinkNode* cur = head;
+	for (; cur != NULL; cur = cur->next)
+	{
+		printf("[%c:%p]->", cur->data, cur);
+	}
+	printf("[NULL]\n");
+}
+void TestInit()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	printf("%p\n", head);
+}
+
+void TestPushBack()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListPushBack(&head,'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinklistPrintf(head,"尾插abcd");
+}
+void TestPushFront()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListPushFront(&head, 'a');
+	LinkListPushFront(&head, 'b');
+	LinkListPushFront(&head, 'c');
+	LinkListPushFront(&head, 'd');
+	LinkListPushFront(&head, 'e');
+	LinklistPrintf(head, "头插abcde");
+}
+
+void TestPopFront()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListPushFront(&head, 'a');
+	LinkListPushFront(&head, 'b');
+	LinkListPushFront(&head, 'c');
+	LinkListPushFront(&head, 'd');
+	LinkListPushFront(&head, 'e');
+	LinklistPrintf(head, "头插abcde");
+	LinkListPopFront(&head);
+	LinklistPrintf(head, "头删e");
+}
+
+void TestPopBack()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListPushFront(&head, 'a');
+	LinklistPrintf(head, "尾插a");
+	LinkListPopBack(&head);
+	LinklistPrintf(head, "尾删a");
+}
+void TestFind()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinklistPrintf(head, "尾插abcd");
+	printf("%p\n", LinkListFind(head, 'b'));
+	printf("%p\n", LinkListFind(head, 'x'));
+
+}
+
+void TestInsert()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinklistPrintf(head, "尾插abcd");
+	LinkNode* pos= LinkListFind(head,'c');
+	LinkListInsert(&head,pos,'f');
+	LinklistPrintf(head, "c前插入f");
+}
+
+void TestInsertAfter()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListInsertAfter(&head, NULL, 'm');
+	LinklistPrintf(head, "head位置后插入m");
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinkListInsertAfter(&head, NULL, 'm');
+	LinklistPrintf(head, "head位置后插入m");
+	LinkNode* pos = LinkListFind(head, 'c');
+	LinkListInsertAfter(&head, pos, 'm');
+	LinklistPrintf(head, "c位置后插入m");
+}
+
+void TestErase()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListErase(&head, head);
+	LinklistPrintf(head, "删除空链表");
+	LinkListPushBack(&head, 'a');
+	LinkNode* pos1 = LinkListFind(head, 'a');
+	LinkListErase(&head, pos1);
+	LinklistPrintf(head, "删除a");
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinkNode* pos = LinkListFind(head, 'd');
+	LinkListErase(&head, pos);
+	LinklistPrintf(head, "删除d");
+}
+
+void TestErase2()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListErase2(&head, head);
+	LinklistPrintf(head, "删除空链表");
+	LinkListPushBack(&head, 'a');
+	LinkNode* pos1 = LinkListFind(head, 'a');
+	LinkListErase2(&head, pos1);
+	LinklistPrintf(head, "删除a");
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinkNode* pos = LinkListFind(head, 'd');
+	LinkListErase2(&head, pos);
+	LinklistPrintf(head, "删除d");
+}
+
+void TestRemove()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListRemove(&head, 'a');
+	LinklistPrintf(head, "空链表指定值a删除");
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinkListRemove(&head, 'e');
+	LinklistPrintf(head, "找不到指定值e删除");
+	LinkListRemove(&head, 'b');
+	LinklistPrintf(head, "指定值b删除");
+}
+
+void TestRemove2()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListRemove2(&head, 'a');
+	LinklistPrintf(head, "空链表指定值a删除");
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinkListRemove2(&head, 'e');
+	LinklistPrintf(head, "找不到指定值e删除");
+	LinkListRemove2(&head, 'b');
+	LinklistPrintf(head, "指定值b删除");
+}
+
+void TestRemoveAll()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListRemoveAll(&head, 'a');
+	LinklistPrintf(head, "空链表指定值a删除");
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'd');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'd');
+	LinkListPushBack(&head, 'd');
+	LinkListRemoveAll(&head, 'e');
+	LinklistPrintf(head, "找不到指定值e删除");
+	LinkListRemoveAll(&head, 'd');
+	LinklistPrintf(head, "指定值d删除");
+}
+
+void TestRemoveAll2()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListRemoveAll2(&head, 'a');
+	LinklistPrintf(head, "空链表指定值a删除");
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinkListPushBack(&head, 'c');
+	LinkListRemoveAll2(&head, 'e');
+	LinklistPrintf(head, "找不到指定值e删除");
+	LinkListRemoveAll2(&head, 'c');
+	LinklistPrintf(head, "指定值c删除");
+}
+
+void TestEmpty()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	printf("%d\n",LinkListEmpty(head));
+}
+
+void TestSize()
+{
+
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinkListPushBack(&head, 'c');
+	printf("%d\n", LinkListSize(head));
+}
+
+void TestReverse()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinkListPushBack(&head, 'c');
+	LinkListReversePrint(head);
+}
+
+void TestInsertBefore()
+{
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListInsertBefore(&head, NULL, 'a');
+	LinklistPrintf(head, "pos等于NULL");
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinkListPushBack(&head, 'c');
+	LinkNode* pos = LinkListFind(head, 'd');
+	LinkListInsertBefore(&head, pos, 'a');
+	LinklistPrintf(head, "d之前插入a");
+}
+
+void TestJosephCycle()
+{
+
+	LinkNode* head;
+	LinkListInit(&head);
+	LinkListPushBack(&head, 'a');
+	LinkListPushBack(&head, 'b');
+	LinkListPushBack(&head, 'c');
+	LinkListPushBack(&head, 'd');
+	LinkListPushBack(&head, 'e');
+	LinkListPushBack(&head, 'f');
+	LinkListPushBack(&head, 'g');
+	LinkListPushBack(&head, 'h');
+	LinkListPushBack(&head, 'i');
+	LinkListPushBack(&head, 'j');
+	LinkNode* pos = LinkListFind(head, 'j');
+	pos->next = head;
+	printf("%c\n", JosephCycle(head, 5)->data);
+}
+int main()
+{
+	TestInit();
+	TestPushBack();
+	TestPushFront();
+	TestPopFront();
+	TestFind();
+	TestInsert();
+	TestPopBack();
+	TestInsertAfter();
+	TestErase();
+	TestErase2();
+	TestRemove();
+	TestRemove2();
+	TestRemoveAll();
+	TestRemoveAll2();
+	TestEmpty();
+	TestSize();
+	TestReverse();
+	TestInsertBefore();
+	TestJosephCycle();
+	system("pause");
+	return 0;
+}
